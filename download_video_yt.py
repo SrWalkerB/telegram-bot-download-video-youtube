@@ -1,8 +1,8 @@
 import os
-import datetime
 from telegram import Update
 from telegram.ext import ContextTypes
 from pytubefix import YouTube
+from youtube_util import YoutubeUtilService
 
 async def download_video_yt(update: Update, context: ContextTypes.DEFAULT_TYPE):
     url = update.message.text.split("/download_video_yt")[1]
@@ -11,17 +11,11 @@ async def download_video_yt(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.send_message(chat_id=update.effective_chat.id, text='invalid url')
         return
 
-    yt = YouTube(url)
+    yt = YoutubeUtilService(url)
 
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=f'Baixando video: {yt.title}...')
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=f'Baixando video: {yt.getTitle()}...')
 
-    ys = yt.streams.get_highest_resolution()
+    yt.download_video()
 
-    file_name = f'{datetime.datetime.now().timestamp()}.mp4'
-
-    ys.download(output_path="./videos", filename=f'{file_name}')
-
-    path = f'./videos/{file_name}'
-
-    await context.bot.send_video(chat_id=update.effective_chat.id, video=open(f'{path}', "rb"), caption=yt.title)
-    os.remove(path)
+    await context.bot.send_video(chat_id=update.effective_chat.id, video=open(f'{yt.get_path_video()}', "rb"), caption=yt.getTitle())
+    os.remove(yt.get_path_video())
