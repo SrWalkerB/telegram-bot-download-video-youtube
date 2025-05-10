@@ -1,6 +1,6 @@
 services:
-  telegram_bot:
-    container_name: telegram_bot
+  bot_telegram:
+    container_name: bot_telegram
     build:
       context: .
       dockerfile: dockerFile
