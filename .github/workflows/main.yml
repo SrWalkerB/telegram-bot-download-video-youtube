@@ -1,0 +1,9 @@
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  deploy:
+    name: deploy to prod
+    runs-on: ubuntu-22.04
