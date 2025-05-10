@@ -1,6 +1,6 @@
-echo "Starting Docker containers..."
+echo "Starting Deploy"
 
 docker-compose down
 docker-compose up -d
 
-echo "Finish Docker containers..."
+echo "Finish Deploy"
